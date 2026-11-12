@@ -2,7 +2,16 @@
 
 لوحة تحكم إدارة VIBEGO (React + Vite + Tailwind CSS v4).
 
-## Getting started
+## Quick demo (no backend needed)
+
+```bash
+npm install
+npm run dev:demo
+```
+
+Open http://localhost:5173 and log in with any email and password, for example `admin@vibego.demo`.
+
+## Getting started (with backend)
 
 ```bash
 npm install

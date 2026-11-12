@@ -6,7 +6,7 @@ export default function Landing() {
       {/* الخلفية الثابتة - تقرأ تلقائياً من مجلد public مباشرة */}
       <div
         className="absolute inset-0 bg-cover bg-[center_60%] scale-105"
-        style={{ backgroundImage: "url('/bg.jpg')" }}
+        style={{ backgroundImage: `url('${import.meta.env.BASE_URL}bg.jpg')` }}
       />
 
       {/* طبقة حماية لونية (Overlay) لضمان تباين النصوص وتناسق الألوان */}

@@ -2,6 +2,12 @@
 
 لوحة تحكم إدارة VIBEGO (React + Vite + Tailwind CSS v4).
 
+## Live demo
+
+https://YOUR-USERNAME.github.io/Vibe-Go-Dashboard/
+
+Runs in demo mode with mock data (no backend). Log in with any email and password.
+
 ## Quick demo (no backend needed)
 
 ```bash
@@ -47,3 +53,9 @@ src/
   index.css     Tailwind import and theme colors
 public/         Static assets (bg.jpg, demo images, destination images)
 ```
+
+## Deploy to GitHub Pages
+
+The workflow in `.github/workflows/deploy.yml` builds the demo and publishes it on every push to `main`.
+One-time setup: make the repository public, then go to **Settings > Pages > Source** and choose **GitHub Actions**.
+The site is served from `/<repo-name>/`, so the build sets `BASE_PATH` automatically.

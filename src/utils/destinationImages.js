@@ -1,10 +1,13 @@
 const LOCAL_IMAGE_PATHS_KEY = 'destination-image-paths';
 
+// المسار الأساسي للموقع: "/" محلياً، و "/اسم-الريبو/" على GitHub Pages
+const withBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
 export const getImageUrl = (imageUrl) => {
   if (!imageUrl) return null;
   if (imageUrl.startsWith('http')) return imageUrl;
-  if (imageUrl.startsWith('/')) return imageUrl;
-  return `/destinations/${imageUrl}`;
+  if (imageUrl.startsWith('/')) return withBase(imageUrl);
+  return withBase(`destinations/${imageUrl}`);
 };
 
 export const getLocalImagePath = (id) => {

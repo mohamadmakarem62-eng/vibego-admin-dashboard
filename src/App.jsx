@@ -88,7 +88,7 @@ function AdminLayout() {
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         {/* أولاً: صفحة الهبوط تفتح تلقائياً عند الدخول للموقع بدون نيفبار لوحة التحكم */}
         <Route path="/" element={<Landing />} />

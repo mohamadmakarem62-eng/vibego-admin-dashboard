@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+/* Tailwind v4 ما بيقرأ tailwind.config.js تلقائياً، فهالألوان لازم تتعرّف هون */
+@theme {
+  --color-beige: #fdfbf7;
+  --color-navy: #1e293b;
+}
+
+:root {
+  --navy: #1e293b; /* كحلي غامق وانيق */
+  --beige: #fdfbf7; /* بيج فاتح جداً للخلفية */
+  --yellow: #fbbf24; /* أصفر حيوي للتفاصيل */
+}
+
+body {
+  background-color: var(--beige);
+  color: var(--navy);
+}

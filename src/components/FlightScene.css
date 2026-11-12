@@ -1,0 +1,156 @@
+/* ===== مشهد الطيران: خلفية نيون + نجوم + طائرة ===== */
+
+.flight-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #03050f;
+}
+
+.flight-bg {
+  position: absolute;
+  inset: 0;
+  background: url('/bg.jpg') center / cover no-repeat;
+  transform: scale(1.05);
+  filter: saturate(1.1) brightness(0.9);
+}
+
+/* طبقة تعتيم: بتحافظ على ألوان الصورة وبتخلي الكرت مقروء */
+.flight-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(3, 5, 15, 0.2), rgba(3, 5, 15, 0.72) 80%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.7));
+}
+
+.flight-blob {
+  position: absolute;
+  width: 38vw;
+  height: 38vw;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.2;
+}
+.flight-blob--cyan {
+  background: #22d3ee;
+  left: -10vw;
+  bottom: -14vw;
+}
+.flight-blob--magenta {
+  background: #fb923c;
+  right: -12vw;
+  top: -14vw;
+}
+
+.flight-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff4d6;
+  box-shadow: 0 0 6px rgba(255, 220, 150, 0.8);
+  opacity: 0.15;
+  animation: star-twinkle var(--duration, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.25);
+  }
+}
+
+/* ===== الطائرة =====
+   الحركة بالـ vw للمحورين حتى تبقى زاوية الصعود (حوالي 10°) ثابتة على كل الشاشات */
+.plane-track {
+  position: absolute;
+  left: 0;
+  top: 62%;
+  animation: plane-cruise 18s linear infinite;
+  will-change: transform;
+}
+
+@keyframes plane-cruise {
+  from {
+    transform: translate3d(-14vw, 0, 0);
+  }
+  to {
+    transform: translate3d(112vw, -22vw, 0);
+  }
+}
+
+.plane-bob {
+  animation: plane-bob 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes plane-bob {
+  from {
+    transform: translateY(-10px);
+  }
+  to {
+    transform: translateY(10px);
+  }
+}
+
+.plane {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  transform: rotate(-10deg);
+}
+
+.plane-icon {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  /* الأيقونة الأصلية بتشير لفوق، منلفها 90° لتصير بتشير لليمين */
+  transform: rotate(90deg);
+  filter: drop-shadow(0 0 4px #67e8f9) drop-shadow(0 0 14px #22d3ee);
+}
+
+/* الذيل المضيء خلف الطائرة */
+.plane-trail {
+  position: absolute;
+  right: 88%;
+  top: 50%;
+  width: clamp(140px, 18vw, 320px);
+  height: 2px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  background: linear-gradient(
+    to left,
+    rgba(103, 232, 249, 0.95),
+    rgba(232, 121, 249, 0.45) 55%,
+    transparent
+  );
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+}
+
+/* طائرة الإقلاع: ثابتة بزاوية الشاشة، وتتحرك بالـ Web Animations API من الـ JS */
+.plane--launch {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plane-track,
+  .plane-bob,
+  .flight-star {
+    animation: none;
+  }
+  .plane-track {
+    left: 62%;
+    top: 26%;
+  }
+}

@@ -1,0 +1,305 @@
+/* ===== صفحة تسجيل الدخول: ستايل النيون ===== */
+
+/* بتخلي الحلقة المضيئة حول الكرت تدور بشكل ناعم */
+@property --ring-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.login-page {
+  position: relative;
+  color: #e8ecff;
+}
+
+/* ---------- الكرت الزجاجي ---------- */
+.login-card {
+  position: relative;
+  z-index: 10;
+  border-radius: 1.75rem;
+  background: rgba(6, 10, 26, 0.6);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 70px rgba(34, 211, 238, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  /* backwards فقط: لو استخدمنا both الأنيميشن بيثبّت الـ transform وبيمنع حركة الخروج */
+  animation: card-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  transition:
+    opacity 0.55s ease 0.05s,
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.55s ease;
+}
+
+/* الحلقة النيون حول الحدود */
+.login-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--ring-angle),
+    transparent 0deg,
+    #22d3ee 70deg,
+    #e879f9 150deg,
+    transparent 230deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.7));
+  animation: ring-spin 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes ring-spin {
+  to {
+    --ring-angle: 360deg;
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+}
+
+/* لما الدخول ينجح: الكرت بيطلع ويختفي وقت الطائرة بتقلع */
+.login-card.is-leaving {
+  opacity: 0;
+  transform: translateY(-28px) scale(0.95);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* ---------- النصوص ---------- */
+.login-brand {
+  display: block;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.42em;
+  margin-inline-end: -0.42em; /* تعويض فراغ آخر حرف حتى يبقى الشعار بالنص تماماً */
+  color: #fbbf24;
+  text-shadow: 0 0 14px rgba(251, 191, 36, 0.55);
+  transition: text-shadow 0.25s ease;
+}
+.login-brand:hover {
+  text-shadow: 0 0 22px rgba(251, 191, 36, 0.95);
+}
+
+.login-title {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.55);
+}
+
+.login-sub {
+  margin-top: 0.4rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(203, 213, 255, 0.6);
+}
+
+.login-demo {
+  margin-top: 1.1rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.8rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px dashed rgba(34, 211, 238, 0.4);
+}
+
+.login-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(226, 232, 255, 0.85);
+}
+
+/* ---------- الحقول ---------- */
+.neon-input {
+  width: 100%;
+  height: 3rem;
+  padding-inline: 2.9rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(148, 163, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2ff;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+.neon-input::placeholder {
+  color: rgba(203, 213, 255, 0.35);
+}
+.neon-input:focus {
+  border-color: #22d3ee;
+  background: rgba(34, 211, 238, 0.06);
+  box-shadow:
+    0 0 0 3px rgba(34, 211, 238, 0.15),
+    0 0 22px rgba(34, 211, 238, 0.25);
+}
+.neon-input:disabled {
+  opacity: 0.6;
+}
+/* تعبئة المتصفح التلقائية بتخرب الخلفية الغامقة، منرجّعها */
+.neon-input:-webkit-autofill {
+  -webkit-text-fill-color: #eef2ff;
+  caret-color: #eef2ff;
+  box-shadow: 0 0 0 1000px #0b1226 inset;
+}
+
+.field-icon {
+  position: absolute;
+  top: 50%;
+  width: 1.15rem;
+  height: 1.15rem;
+  transform: translateY(-50%);
+  color: rgba(148, 163, 255, 0.6);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+.neon-field:focus-within .field-icon {
+  color: #22d3ee;
+}
+
+.eye-btn {
+  position: absolute;
+  top: 50%;
+  left: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  transform: translateY(-50%);
+  border-radius: 0.6rem;
+  color: rgba(148, 163, 255, 0.7);
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+.eye-btn:hover {
+  color: #22d3ee;
+  background: rgba(34, 211, 238, 0.08);
+}
+.eye-btn:focus-visible {
+  outline: 2px solid #22d3ee;
+}
+.eye-btn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* ---------- الرسائل ---------- */
+.login-alert {
+  border-radius: 0.9rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.875rem;
+  border: 1px solid;
+}
+.login-alert--error {
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.45);
+  box-shadow: 0 0 18px rgba(244, 63, 94, 0.18);
+}
+.login-alert--ok {
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(52, 211, 153, 0.45);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.18);
+}
+
+/* ---------- زر الدخول (نفس زر الـ Landing) ---------- */
+.launch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  width: 100%;
+  height: 3.25rem;
+  border-radius: 9999px;
+  background: #fbbf24;
+  color: #0b1020;
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow:
+    0 12px 30px rgba(251, 191, 36, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+.launch-btn:hover:not(:disabled) {
+  background: #f59e0b;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 16px 38px rgba(251, 191, 36, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.launch-btn:focus-visible {
+  outline: 2px solid #fde68a;
+  outline-offset: 3px;
+}
+.launch-btn:disabled {
+  cursor: progress;
+}
+
+.btn-plane {
+  width: 1.3rem;
+  height: 1.3rem;
+  transform: rotate(45deg); /* بتشير لفوق يمين */
+  transition: transform 0.3s ease;
+}
+.launch-btn:hover:not(:disabled) .btn-plane {
+  transform: translate(3px, -3px) rotate(45deg);
+}
+.launch-btn.is-departing .btn-plane {
+  animation: btn-plane-out 0.9s ease-in forwards;
+}
+
+@keyframes btn-plane-out {
+  to {
+    transform: translate(44px, -44px) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.login-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: rgba(203, 213, 255, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-card,
+  .login-card::before,
+  .launch-btn.is-departing .btn-plane {
+    animation: none;
+  }
+  .login-card,
+  .launch-btn {
+    transition: none;
+  }
+}

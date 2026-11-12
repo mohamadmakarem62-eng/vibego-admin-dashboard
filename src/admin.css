@@ -1,0 +1,523 @@
+/* ==========================================================================
+   VIBEGO — ثيم لوحة الإدارة
+   نفس لغة صفحة الدخول: خلفية الصورة + زجاج داكن + سيان وأصفر.
+   تنسيق فقط، بدون أي أنيميشن.
+   ========================================================================== */
+
+:root {
+  --v-ink: #eef2ff;
+  --v-ink-2: rgba(226, 232, 255, 0.85);
+  --v-muted: rgba(203, 213, 255, 0.62);
+  --v-faint: rgba(203, 213, 255, 0.5);
+
+  --v-panel: rgba(6, 10, 26, 0.6);
+  --v-panel-solid: #0b1226;
+  --v-line: rgba(148, 163, 255, 0.18);
+  --v-line-strong: rgba(148, 163, 255, 0.32);
+
+  --v-cyan: #22d3ee;
+  --v-amber: #fbbf24;
+  --v-rose: #fb7185;
+  --v-emerald: #34d399;
+  --v-violet: #e879f9;
+}
+
+/* ---------- الإطار العام + الخلفية ---------- */
+.admin-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--v-ink);
+  background: #03050f;
+}
+
+.admin-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.admin-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/bg.jpg') center 60% / cover no-repeat;
+  filter: saturate(1.1) brightness(0.8);
+}
+/* التعتيم أقوى من صفحة الدخول لأنو هون في جداول ونصوص كتيرة */
+.admin-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 5, 15, 0.8),
+    rgba(3, 5, 15, 0.74) 45%,
+    rgba(3, 5, 15, 0.92)
+  );
+}
+
+.v-page {
+  position: relative;
+  z-index: 10;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ---------- النافبار ---------- */
+.v-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2rem;
+  background: rgba(6, 10, 26, 0.72);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--v-line);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.v-brand {
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.32em;
+  color: var(--v-amber);
+  text-shadow: 0 0 14px rgba(251, 191, 36, 0.45);
+}
+.v-brand-tag {
+  margin-inline-start: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--v-muted);
+  text-shadow: none;
+}
+
+.v-navlink {
+  padding-bottom: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--v-muted);
+  border-bottom: 2px solid transparent;
+}
+.v-navlink:hover {
+  color: var(--v-cyan);
+}
+.v-navlink.is-active {
+  font-weight: 700;
+  color: var(--v-cyan);
+  border-bottom-color: var(--v-cyan);
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.45);
+}
+.v-navlink:focus-visible,
+.v-logout:focus-visible {
+  outline: 2px solid var(--v-cyan);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.v-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.45);
+  cursor: pointer;
+}
+.v-logout:hover {
+  background: rgba(244, 63, 94, 0.24);
+}
+
+/* الموبايل: النافبار بيلتف على سطرين بدل ما يطلع برا الشاشة */
+@media (max-width: 640px) {
+  .v-nav {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+  }
+  .v-nav div {
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+  .v-page {
+    padding: 1rem;
+  }
+}
+
+/* ---------- الكرت الزجاجي ---------- */
+.v-glass {
+  background: var(--v-panel);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--v-line);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 60px rgba(34, 211, 238, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- النصوص ---------- */
+.v-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+}
+.v-sub {
+  font-size: 0.875rem;
+  color: var(--v-muted);
+}
+.v-ink {
+  color: var(--v-ink);
+}
+.v-ink-2 {
+  color: var(--v-ink-2);
+}
+.v-muted {
+  color: var(--v-muted);
+}
+.v-faint {
+  color: var(--v-faint);
+}
+.v-accent {
+  color: var(--v-cyan);
+}
+.v-empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  font-weight: 500;
+  color: var(--v-muted);
+}
+
+.v-pill {
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fde68a;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+}
+
+/* ---------- الأزرار ---------- */
+.v-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.3rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.v-btn--compact {
+  padding: 0.4rem 1rem;
+}
+.v-btn:disabled {
+  cursor: not-allowed;
+}
+.v-btn:focus-visible,
+.v-btn-sm:focus-visible {
+  outline: 2px solid #fde68a;
+  outline-offset: 3px;
+}
+
+/* نفس زر الدخول بصفحة اللاند واللوغ */
+.v-btn-primary {
+  background: var(--v-amber);
+  color: #0b1020;
+  font-weight: 900;
+  box-shadow:
+    0 10px 26px rgba(251, 191, 36, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+.v-btn-primary:hover:not(:disabled) {
+  background: #f59e0b;
+}
+
+.v-btn-ghost {
+  color: var(--v-ink-2);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--v-line-strong);
+}
+.v-btn-ghost:hover:not(:disabled) {
+  color: #fff;
+  background: rgba(34, 211, 238, 0.09);
+  border-color: var(--v-cyan);
+}
+/* زر الفلتر المفعّل */
+.v-btn-ghost.is-on {
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, 0.14);
+  border-color: var(--v-cyan);
+}
+.v-btn-ghost.is-on--warn {
+  color: #fde68a;
+  background: rgba(251, 191, 36, 0.14);
+  border-color: var(--v-amber);
+}
+
+/* أزرار صغيرة داخل الجداول */
+.v-btn-sm {
+  padding: 0.3rem 0.85rem;
+  border: 1px solid;
+  border-radius: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.v-btn-sm--ok {
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(52, 211, 153, 0.45);
+}
+.v-btn-sm--ok:hover {
+  background: rgba(16, 185, 129, 0.24);
+}
+.v-btn-sm--bad {
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.45);
+}
+.v-btn-sm--bad:hover {
+  background: rgba(244, 63, 94, 0.24);
+}
+.v-btn-sm--info {
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.4);
+}
+.v-btn-sm--info:hover {
+  background: rgba(34, 211, 238, 0.2);
+}
+
+/* ---------- التنبيهات (نفس ألوان صفحة الدخول) ---------- */
+.v-alert {
+  padding: 0.7rem 1rem;
+  border: 1px solid;
+  border-radius: 0.9rem;
+  font-size: 0.875rem;
+}
+.v-alert-error {
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.45);
+}
+.v-alert-ok {
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(52, 211, 153, 0.45);
+}
+.v-alert-warn {
+  color: #fde68a;
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+/* ---------- الجداول ---------- */
+.v-table {
+  border-collapse: collapse;
+}
+.v-thead {
+  background: rgba(255, 255, 255, 0.04);
+}
+.v-thead tr {
+  border-bottom: 1px solid var(--v-line-strong);
+}
+.v-th {
+  font-weight: 600;
+  color: var(--v-muted);
+}
+.v-table tbody tr + tr {
+  border-top: 1px solid var(--v-line);
+}
+.v-row:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+/* ---------- الشارات ---------- */
+.v-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border: 1px solid;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.v-badge--admin {
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.4);
+}
+.v-badge--organizer {
+  color: #f5d0fe;
+  background: rgba(232, 121, 249, 0.1);
+  border-color: rgba(232, 121, 249, 0.4);
+}
+.v-badge--ok {
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(52, 211, 153, 0.45);
+}
+.v-badge--warn {
+  color: #fde68a;
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.4);
+}
+.v-badge--bad {
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.45);
+}
+.v-badge--muted {
+  color: var(--v-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--v-line);
+}
+
+/* ---------- كروت الإحصائيات ---------- */
+.v-stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--v-muted);
+}
+.v-stat-value {
+  font-size: 1.35rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #fff;
+}
+.v-stat-value--money {
+  color: #6ee7b7;
+}
+
+.v-icon-tile {
+  padding: 0.75rem;
+  border: 1px solid;
+  border-radius: 0.9rem;
+}
+.v-icon-tile--cyan {
+  color: var(--v-cyan);
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.35);
+}
+.v-icon-tile--violet {
+  color: var(--v-violet);
+  background: rgba(232, 121, 249, 0.1);
+  border-color: rgba(232, 121, 249, 0.35);
+}
+.v-icon-tile--emerald {
+  color: var(--v-emerald);
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(52, 211, 153, 0.35);
+}
+.v-icon-tile--amber {
+  color: var(--v-amber);
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.35);
+}
+
+.v-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--v-line);
+}
+
+.v-pagebar {
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid var(--v-line);
+}
+
+/* ---------- النماذج والنوافذ المنبثقة ---------- */
+.v-overlay {
+  background: rgba(3, 5, 15, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.v-modal {
+  color: var(--v-ink);
+  background: var(--v-panel-solid);
+  border: 1px solid var(--v-line-strong);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 70px rgba(34, 211, 238, 0.08);
+}
+.v-modal-head {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--v-line);
+}
+.v-modal-head--ok {
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.14);
+  border-bottom-color: rgba(52, 211, 153, 0.35);
+}
+.v-close {
+  color: var(--v-muted);
+  cursor: pointer;
+}
+.v-close:hover {
+  color: #fff;
+}
+.v-divider-top {
+  border-top: 1px solid var(--v-line);
+}
+
+.v-label {
+  color: var(--v-ink-2);
+}
+.v-input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  color: var(--v-ink);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 255, 0.22);
+  border-radius: 0.9rem;
+  outline: none;
+}
+.v-input::placeholder {
+  color: rgba(203, 213, 255, 0.35);
+}
+.v-input:focus {
+  background: rgba(34, 211, 238, 0.06);
+  border-color: var(--v-cyan);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+}
+.v-check {
+  accent-color: var(--v-amber);
+}
+.v-dropzone {
+  color: var(--v-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px dashed var(--v-line-strong);
+  border-radius: 1rem;
+}
+.v-dropzone:hover {
+  background: rgba(34, 211, 238, 0.05);
+  border-color: var(--v-cyan);
+}
+
+.v-tile {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--v-line);
+  border-radius: 1rem;
+}
+.v-tile--info {
+  background: rgba(34, 211, 238, 0.07);
+  border-color: rgba(34, 211, 238, 0.3);
+}
+.v-tile-icon {
+  background: rgba(34, 211, 238, 0.12);
+}
